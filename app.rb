@@ -1,7 +1,7 @@
 require('sinatra')
 require('sinatra/reloader')
 also_reload('lib/**/*.rb')
-require('./lib/rps')
+require('./lib/find_replace')
 require('pry')
 
 get('/') do
@@ -9,15 +9,10 @@ get('/') do
 end
 
 get('/result') do
-  player1 = params.fetch('player1')
-  player2 = params.fetch('player2')
+  old_sentence = params.fetch('sentence')
+  old_word = params.fetch('word1')
+  new_word = params.fetch('word2')
 
-  if player1.beats?(player2)=='true'
-    @winner = 'Player 1 Wins!'
-  elsif player1.beats?(player2)=='false'
-    @winner = 'Player 2 Wins!'
-  else
-    @winner = 'Draw!'
-  end
+  @new = old_sentence.find_replace(old_word,new_word)
   erb(:result)
 end
